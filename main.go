@@ -7,6 +7,13 @@ import (
 )
 
 func main() {
+	single_threaded()
+
+	multi_threaded()
+}
+
+func multi_threaded() {
+	startTime := time.Now()
 	var list []int
 	var wg sync.WaitGroup
 
@@ -16,46 +23,9 @@ func main() {
 	// c := make(chan int, 8)
 	c := make(chan int)
 
-	startTime := time.Now()
-
-	wg.Add(8)
-	go func() {
-		c <- sum_values(sub_slice(list, 0, 100))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 100, 200))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 200, 300))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 300, 400))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 400, 500))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 500, 600))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 600, 700))
-		wg.Done()
-	}()
-	go func() {
-		c <- sum_values(sub_slice(list, 700, 800))
-		wg.Done()
-	}()
-
-	// for 
-	//  -> fun i, i +100
+	wg.Add(slice_count)
 	for i := 0; i < slice_count; i++ {
-		slice_size := i*100
+		slice_size := i * 100
 
 		go func() {
 			c <- sum_values(sub_slice(list, slice_size, slice_size+100))
@@ -70,11 +40,21 @@ func main() {
 
 	sum := 0
 	for partial_sum := range c {
-		fmt.Println(sum)
 		sum += partial_sum
 	}
 
 	fmt.Println(sum)
+	fmt.Println(time.Since(startTime))
+}
+
+func single_threaded() {
+	startTime := time.Now()
+	var list []int
+
+	slice_count := 8
+	list = generate_slice(slice_count * 100)
+
+	fmt.Println(sum_values(list))
 	fmt.Println(time.Since(startTime))
 }
 
