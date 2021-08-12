@@ -3,15 +3,20 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 func main() {
 	var list []int
 	var wg sync.WaitGroup
 
-	list = generate_slice(800)
+	slice_count := 8
+	list = generate_slice(slice_count * 100)
 
+	// c := make(chan int, 8)
 	c := make(chan int)
+
+	startTime := time.Now()
 
 	wg.Add(8)
 	go func() {
@@ -47,16 +52,30 @@ func main() {
 		wg.Done()
 	}()
 
+	// for 
+	//  -> fun i, i +100
+	for i := 0; i < slice_count; i++ {
+		slice_size := i*100
+
+		go func() {
+			c <- sum_values(sub_slice(list, slice_size, slice_size+100))
+			wg.Done()
+		}()
+	}
+
+	go func() {
+		wg.Wait()
+		close(c)
+	}()
+
 	sum := 0
-	wg.Wait()
-	close(c)
 	for partial_sum := range c {
 		fmt.Println(sum)
 		sum += partial_sum
 	}
 
 	fmt.Println(sum)
-
+	fmt.Println(time.Since(startTime))
 }
 
 func sum_values(values []int) int {
