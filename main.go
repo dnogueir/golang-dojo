@@ -1,16 +1,19 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
+import "fmt"
 
 func main() {
+	var list []int
 
-	start := time.Now()
-	time.Sleep(time.Second * 1)
-	fmt.Println(time.Since(start))
+	list = append(list, 1, 2, 3)
 
+	fmt.Println(sum_values(list))
 }
 
+func sum_values(values []int) int {
+	sum := 0
+	for _, v := range values {
+		sum += v
+	}
+	return sum
+}
