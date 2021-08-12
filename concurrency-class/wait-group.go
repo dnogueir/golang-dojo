@@ -10,15 +10,14 @@ func main() {
 
 	var wg sync.WaitGroup
 
-	wg.Add(1)
+	wg.Add(2)
 	go func() {
-		groupCounter("pipoca")
+		groupCounter("pipoca", 10)
+		
 		wg.Done()
 	}()
-
-	wg.Add(1)
 	go func() {
-		groupCounter("netflix")
+		groupCounter("netflix", 2)
 		wg.Done()
 	}()
 
@@ -26,8 +25,8 @@ func main() {
 
 }
 
-func groupCounter(something string) {
-	for i := 0; i < 5; i++ {
+func groupCounter(something string, value int) {
+	for i := 0; i < value; i++ {
 		fmt.Println(something)
 		time.Sleep(time.Millisecond * 500)
 	}

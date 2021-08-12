@@ -5,15 +5,16 @@ import (
 	"time"
 )
 
+//go routine
 func main() {
 
-	go asyncCounter("pipoca")
-	go asyncCounter("netflix")
+	go asyncCounter("pipoca", 15)
+	go asyncCounter("netflix", 2)
 
 }
 
-func asyncCounter(something string) {
-	for i := 0; i < 5; i++ {
+func asyncCounter(something string, valor int) {
+	for i := 0; i < valor; i++ {
 		fmt.Println(something)
 		time.Sleep(time.Millisecond * 500)
 	}

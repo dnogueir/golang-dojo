@@ -3,11 +3,16 @@ package main
 import (
 	"fmt"
 	"time"
+	"sync"
 )
+
+var wg sync.WaitGroup
 
 func main() {
 
 	c := make(chan string)
+
+	wg.Add(2)
 
 	go channelCounter("pipoca", c)
 	go channelCounter("netflix", c)
@@ -16,7 +21,8 @@ func main() {
 		fmt.Println(msg)
 	}
 
-	//close(c)
+	wg.Wait()
+	close(c)
 
 }
 
@@ -25,5 +31,7 @@ func channelCounter(something string, c chan string) {
 		c <- something
 		time.Sleep(time.Millisecond * 500)
 	}
+
+	wg.Done()
 
 }
