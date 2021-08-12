@@ -1,3 +1,3 @@
 module github.com/dnogueir/golang-dojo
 
-go 1.16
+go 1.13
