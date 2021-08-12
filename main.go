@@ -48,12 +48,15 @@ func main() {
 	}()
 
 	sum := 0
+	wg.Wait()
+	close(c)
 	for partial_sum := range c {
+		fmt.Println(sum)
 		sum += partial_sum
 	}
 
 	fmt.Println(sum)
-	wg.Wait()
+
 }
 
 func sum_values(values []int) int {
