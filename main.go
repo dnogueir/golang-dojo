@@ -1,9 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 
 func main() {
+
+	start := time.Now()
+	time.Sleep(time.Second * 1)
+	fmt.Println(time.Since(start))
 
 }
 
