@@ -16,6 +16,8 @@ func main() {
 		fmt.Println(msg)
 	}
 
+	//close(c)
+
 }
 
 func channelCounter(something string, c chan string) {
@@ -24,5 +26,4 @@ func channelCounter(something string, c chan string) {
 		time.Sleep(time.Millisecond * 500)
 	}
 
-	//close(c)
 }
