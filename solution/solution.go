@@ -1,4 +1,4 @@
-package main
+package solution
 
 import (
 	"fmt"
@@ -6,13 +6,7 @@ import (
 	"time"
 )
 
-func main() {
-	single_threaded()
-
-	multi_threaded()
-}
-
-func multi_threaded() {
+func Multi_threaded() int {
 	startTime := time.Now()
 	var list []int
 	var wg sync.WaitGroup
@@ -45,6 +39,8 @@ func multi_threaded() {
 
 	fmt.Println(sum)
 	fmt.Println(time.Since(startTime))
+
+	return sum
 }
 
 func single_threaded() {
